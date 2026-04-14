@@ -1,5 +1,6 @@
 require('dotenv').config();
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, GatewayIntentBits, AttachmentBuilder } = require('discord.js');
+const { createCanvas, loadImage } = require('canvas');
 
 const client = new Client({
   intents: [
@@ -25,12 +26,36 @@ client.on('guildMemberAdd', async (member) => {
       console.error('Роль не найдена. Проверьте WELCOME_ROLE_ID в .env');
     }
 
+    // Создаем изображение с ником пользователя
+    const canvas = createCanvas(800, 450);
+    const ctx = canvas.getContext('2d');
+
+    // Загружаем фоновую картинку
+    const background = await loadImage('IMG_0974.jpg');
+    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+    // Настраиваем текст
+    ctx.font = 'bold 60px Arial';
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // Рисуем ник пользователя
+    const displayName = member.displayName;
+    ctx.fillText(displayName, canvas.width / 2, canvas.height / 2);
+
+    // Конвертируем canvas в attachment
+    const attachment = new AttachmentBuilder(canvas.toBuffer(), { name: 'welcome.png' });
+
     // Отправляем приветствие в канал
     const channelId = process.env.WELCOME_CHANNEL_ID;
     const channel = member.guild.channels.cache.get(channelId);
     
     if (channel) {
-      await channel.send(`Добро пожаловать на сервер, ${member}! 🎉`);
+      await channel.send({
+        content: `Добро пожаловать на сервер, ${member}! 🎉`,
+        files: [attachment]
+      });
       console.log(`Приветствие отправлено для ${member.user.tag}`);
     } else {
       console.error('Канал не найден. Проверьте WELCOME_CHANNEL_ID в .env');
