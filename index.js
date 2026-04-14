@@ -1,6 +1,14 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits, AttachmentBuilder } = require('discord.js');
-const { createCanvas, loadImage } = require('canvas');
+const { createCanvas, loadImage, registerFont } = require('canvas');
+const path = require('path');
+
+// Регистрируем системный шрифт для кириллицы
+try {
+  registerFont('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', { family: 'DejaVu Sans', weight: 'bold' });
+} catch (error) {
+  console.log('Не удалось загрузить DejaVu Sans, используем системный шрифт');
+}
 
 const client = new Client({
   intents: [
@@ -35,7 +43,7 @@ client.on('guildMemberAdd', async (member) => {
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
     // Настраиваем текст
-    ctx.font = 'bold 60px "Noto Sans", sans-serif';
+    ctx.font = 'bold 60px "DejaVu Sans", sans-serif';
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';

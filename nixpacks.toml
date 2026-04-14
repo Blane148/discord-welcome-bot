@@ -1,2 +1,2 @@
 [phases.setup]
-aptPkgs = ["fonts-noto", "fonts-noto-cjk", "fonts-noto-color-emoji"]
+aptPkgs = ["fonts-dejavu-core"]
