@@ -1,14 +1,6 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits, AttachmentBuilder } = require('discord.js');
-const { createCanvas, loadImage, registerFont } = require('canvas');
-const path = require('path');
-
-// Регистрируем системный шрифт для кириллицы
-try {
-  registerFont('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', { family: 'DejaVu Sans', weight: 'bold' });
-} catch (error) {
-  console.log('Не удалось загрузить DejaVu Sans, используем системный шрифт');
-}
+const { createCanvas, loadImage } = require('canvas');
 
 const client = new Client({
   intents: [
@@ -42,14 +34,19 @@ client.on('guildMemberAdd', async (member) => {
     const background = await loadImage('IMG_0974.jpg');
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-    // Настраиваем текст
-    ctx.font = 'bold 60px "DejaVu Sans", sans-serif';
-    ctx.fillStyle = '#ffffff';
+    // Настраиваем текст с тенью для лучшей читаемости
+    const displayName = member.displayName;
+    
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-
-    // Рисуем ник пользователя
-    const displayName = member.displayName;
+    
+    // Рисуем тень
+    ctx.font = 'bold 60px sans-serif';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    ctx.fillText(displayName, canvas.width / 2 + 3, canvas.height / 2 + 3);
+    
+    // Рисуем основной текст
+    ctx.fillStyle = '#ffffff';
     ctx.fillText(displayName, canvas.width / 2, canvas.height / 2);
 
     // Конвертируем canvas в attachment

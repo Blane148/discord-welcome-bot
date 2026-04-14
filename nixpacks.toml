@@ -1,2 +1,5 @@
 [phases.setup]
-aptPkgs = ["fonts-dejavu-core"]
+aptPkgs = ["fontconfig", "fonts-liberation"]
+
+[phases.install]
+cmds = ["fc-cache -f -v"]
