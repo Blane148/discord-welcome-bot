@@ -35,7 +35,7 @@ client.on('guildMemberAdd', async (member) => {
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
     // Настраиваем текст
-    ctx.font = 'bold 60px Arial';
+    ctx.font = 'bold 60px sans-serif';
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
