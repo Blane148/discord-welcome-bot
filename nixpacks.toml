@@ -12,4 +12,10 @@ aptPkgs = [
 ]
 
 [phases.install]
-cmds = ["fc-cache -f -v"]
+cmds = [
+  "mkdir -p /etc/fonts",
+  "fc-cache -f -v"
+]
+
+[start]
+cmd = "npm start"
