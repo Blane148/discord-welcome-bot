@@ -40,8 +40,10 @@ client.on('guildMemberAdd', async (member) => {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
+    // Пробуем разные шрифты для кириллицы
+    ctx.font = 'bold 60px "DejaVu Sans", "Liberation Sans", "Noto Sans", "Ubuntu", "Roboto", "FreeSans", "Droid Sans", sans-serif';
+    
     // Рисуем тень
-    ctx.font = 'bold 60px sans-serif';
     ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
     ctx.fillText(displayName, canvas.width / 2 + 3, canvas.height / 2 + 3);
     

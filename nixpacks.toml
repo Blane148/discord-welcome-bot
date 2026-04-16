@@ -1,5 +1,15 @@
 [phases.setup]
-aptPkgs = ["fontconfig", "fonts-liberation"]
+aptPkgs = [
+  "fontconfig",
+  "fonts-dejavu-core",
+  "fonts-liberation",
+  "fonts-freefont-ttf",
+  "fonts-noto",
+  "fonts-noto-core",
+  "fonts-ubuntu",
+  "fonts-roboto",
+  "fonts-droid-fallback"
+]
 
 [phases.install]
 cmds = ["fc-cache -f -v"]
