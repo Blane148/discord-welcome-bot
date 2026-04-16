@@ -1,6 +1,31 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits, AttachmentBuilder } = require('discord.js');
-const { createCanvas, loadImage } = require('canvas');
+const { createCanvas, loadImage, registerFont } = require('canvas');
+
+// Регистрируем шрифты с кириллицей
+const fonts = [
+  '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf',
+  '/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf',
+  '/usr/share/fonts/truetype/noto/NotoSans-Bold.ttf',
+  '/usr/share/fonts/truetype/ubuntu/Ubuntu-B.ttf',
+  '/usr/share/fonts/truetype/freefont/FreeSansBold.ttf'
+];
+
+let fontLoaded = false;
+for (const fontPath of fonts) {
+  try {
+    registerFont(fontPath, { family: 'CustomFont', weight: 'bold' });
+    console.log(`Шрифт загружен: ${fontPath}`);
+    fontLoaded = true;
+    break;
+  } catch (error) {
+    console.log(`Не удалось загрузить: ${fontPath}`);
+  }
+}
+
+if (!fontLoaded) {
+  console.log('Используем системный шрифт по умолчанию');
+}
 
 const client = new Client({
   intents: [
@@ -40,8 +65,8 @@ client.on('guildMemberAdd', async (member) => {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
-    // Пробуем разные шрифты для кириллицы
-    ctx.font = 'bold 60px "DejaVu Sans", "Liberation Sans", "Noto Sans", "Ubuntu", "Roboto", "FreeSans", "Droid Sans", sans-serif';
+    // Используем зарегистрированный шрифт
+    ctx.font = 'bold 60px CustomFont, sans-serif';
     
     // Рисуем тень
     ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
