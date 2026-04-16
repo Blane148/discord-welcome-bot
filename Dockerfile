@@ -8,7 +8,6 @@ RUN apt-get update && apt-get install -y \
     fonts-freefont-ttf \
     fonts-noto \
     fonts-noto-core \
-    fonts-ubuntu \
     fonts-roboto \
     fonts-droid-fallback \
     && fc-cache -f -v \
